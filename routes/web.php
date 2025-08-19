@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PanelController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +17,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(PageController::class)->group(function(){
+    Route::get('/', 'getHome')->name('getHome');
+});
+
+Route::controller(AuthController::class)->group(function(){
+    Route::get('/kayit-ol', 'getRegister')->name('getRegister');
+    Route::post('/kayit-ol', 'postRegister')->name('postRegister');
+    Route::get('/giris-yap', 'getLogin')->name('getLogin');
+    Route::post('/giris-yap', 'postLogin')->name('postLogin');
+    Route::get('/cikis-yap', 'getLogout')->name('getLogout');
+});
+
+
+Route::prefix('/panel')->middleware('auth')->name('panel.')->group(function(){
+    Route::controller(PanelController::class)->group(function(){
+        Route::get('/', 'getDashboard')->name('getDashboard');
+        Route::get('/profil', 'getProfile')->name('getProfile');
+    });
+});
+
+Route::prefix('/admin')->middleware('role:admin')->name('admin.')->group(function(){
+    Route::controller(AdminController::class)->group(function(){
+        Route::get('/', 'getDashboard')->name('getDashboard');
+        Route::get('/profil', 'getProfile')->name('getProfile');
+    });
 });
