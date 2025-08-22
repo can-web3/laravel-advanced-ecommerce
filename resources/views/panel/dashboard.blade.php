@@ -1,5 +1,7 @@
 @extends('layouts.panel')
 
+@section('title', 'Kontrol Paneli')
+
 @section('content')
-    <h1>Dashboard</h1>
+    <h1>Kontrol Paneli</h1>
 @endsection

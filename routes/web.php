@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PanelController;
 use Illuminate\Support\Facades\Route;
@@ -35,11 +35,14 @@ Route::prefix('/panel')->middleware('auth')->name('panel.')->group(function(){
         Route::get('/', 'getDashboard')->name('getDashboard');
         Route::get('/profil', 'getProfile')->name('getProfile');
     });
+
+    Route::middleware('role:admin')->group(function(){
+        Route::resource('/kategoriler', CategoryController::class, ['names' => 'categories']);
+    });
+
 });
 
-Route::prefix('/admin')->middleware('role:admin')->name('admin.')->group(function(){
-    Route::controller(AdminController::class)->group(function(){
-        Route::get('/', 'getDashboard')->name('getDashboard');
-        Route::get('/profil', 'getProfile')->name('getProfile');
-    });
+
+Route::prefix('/api')->group(function(){
+
 });

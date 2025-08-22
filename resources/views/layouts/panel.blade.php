@@ -24,10 +24,21 @@
 	<link rel="stylesheet" href="{{ asset('assets/css/dark-theme.css') }}" />
 	<link rel="stylesheet" href="{{ asset('assets/css/semi-dark.css') }}" />
 	<link rel="stylesheet" href="{{ asset('assets/css/header-colors.css') }}" />
-	<title>@yield('title')</title>
+
+	<link href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" integrity="sha512-6S2HWzVFxruDlZxI3sXOZZ4/eJ8AcxkQH1+JjSe/ONCEqR9L4Ysq5JdT5ipqtzU7WHalNwzwBv+iE51gNHJNqQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    @yield('style')
+    <title>@yield('title')</title>
 </head>
 
 <body>
+    @include('includes.delete-modal')
+
 	<!--wrapper-->
 	<div class="wrapper">
 		<!--sidebar wrapper -->
@@ -41,76 +52,7 @@
 			<div class="page-content">
                 <div class="card">
                     <div class="card-body p-4">
-                        <h5 class="mb-4">Vertical Form</h5>
-                        <form class="row g-3">
-                            <div class="col-md-6">
-                                <label for="input1" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="input1" placeholder="First Name">
-                            </div>
-                            <div class="col-md-6">
-                                <label for="input2" class="form-label">Last Name</label>
-                                <input type="text" class="form-control" id="input2" placeholder="Last Name">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="input3" class="form-label">Phone</label>
-                                <input type="text" class="form-control" id="input3" placeholder="Phone">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="input4" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="input4" placeholder="Email">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="input5" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="input5" placeholder="Password">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="input6" class="form-label">DOB</label>
-                                <input type="date" class="form-control" id="input6" placeholder="Date of Birth">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="input7" class="form-label">Country</label>
-                                <select id="input7" class="form-select">
-                                    <option selected>Choose...</option>
-                                    <option>One</option>
-                                    <option>Two</option>
-                                    <option>Three</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-6">
-                                <label for="input8" class="form-label">City</label>
-                                <input type="text" class="form-control" id="input8" placeholder="City">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="input9" class="form-label">State</label>
-                                <select id="input9" class="form-select">
-                                    <option selected>Choose...</option>
-                                    <option>One</option>
-                                    <option>Two</option>
-                                    <option>Three</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <label for="input10" class="form-label">Zip</label>
-                                <input type="text" class="form-control" id="input10" placeholder="Zip">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="input11" class="form-label">Address</label>
-                                <textarea class="form-control" id="input11" placeholder="Address ..." rows="3"></textarea>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="input12">
-                                    <label class="form-check-label" for="input12">Check me out</label>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="d-md-flex d-grid align-items-center gap-3">
-                                    <button type="button" class="btn btn-primary px-4">Submit</button>
-                                    <button type="button" class="btn btn-light px-4">Reset</button>
-                                </div>
-                            </div>
-                        </form>
+                        @yield('content')
                     </div>
                 </div>
 			</div>
@@ -176,6 +118,50 @@
 	<script src="{{ asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
 	<!--app JS-->
 	<script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js" integrity="sha512-lbwH47l/tPXJYG9AcFNoJaTMhGvYWhVM9YI43CT+uteTRRaiLCui8snIgyAN8XWgNjNhCqlAUdzZptso6OCoFQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script src="{{ asset('assets/plugins/select2/js/select2-custom.js') }}"></script>
+
+    <script>
+        $(function() {
+            @if(session('alert_status'))
+                toastr.{{ session('alert_status') }}("{{ session('alert_message') }}");
+            @endif
+
+			$('.datatable').DataTable({
+                order: [],
+                language: {
+                    url: "https://cdn.datatables.net/plug-ins/1.13.4/i18n/tr.json"
+                },
+            });
+
+            $('.select2').select2({
+                theme: "bootstrap-5",
+                width: $( this ).data( 'width' ) ? $( this ).data( 'width' ) : $( this ).hasClass( 'w-100' ) ? '100%' : 'style',
+                placeholder: $( this ).data( 'placeholder' ),
+            });
+
+            $('body').on('click', '.btn-delete', function() {
+                var action = $(this).data('action');
+                var text = $(this).data('text');
+
+                console.log('action', action)
+                console.log('text', text)
+
+                $('#deleteModal form').attr('action', action);
+                $('#deleteModal .modal-body').text(text);
+                $('#deleteModal').modal('show');
+            });
+
+        });
+    </script>
+
+    @yield('script')
 </body>
 
 </html>

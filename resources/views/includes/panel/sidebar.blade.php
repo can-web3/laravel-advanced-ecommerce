@@ -4,7 +4,7 @@
             <img src="{{ asset('assets/images/logo-icon.png') }}" class="logo-icon" alt="logo icon">
         </div>
         <div>
-            <h4 class="logo-text">Rocker</h4>
+            <a href="{{ route('getHome') }}" class="logo-text">{{ env('APP_NAME') }}</a>
         </div>
         <div class="toggle-icon ms-auto"><i class='bx bx-arrow-back'></i>
         </div>
@@ -20,23 +20,61 @@
             </a>
         </li>
 
-        <li>
-            <a href="{{ route('panel.getDashboard') }}">
-                <div class="parent-icon">
-                    <i class='bx bx-cookie'></i>
-                </div>
-                <div class="menu-title">Siparişlerim</div>
-            </a>
-        </li>
+        @role('admin')
+            <li>
+                <a href="{{ route('panel.getDashboard') }}">
+                    <div class="parent-icon">
+                        <i class='bx bx-cookie'></i>
+                    </div>
+                    <div class="menu-title">Ürünler</div>
+                </a>
+            </li>
 
-        <li>
-            <a href="{{ route('panel.getDashboard') }}">
-                <div class="parent-icon">
-                    <i class='bx bx-cookie'></i>
-                </div>
-                <div class="menu-title">Adreslerim</div>
-            </a>
-        </li>
+            <li>
+                <a href="{{ route('panel.categories.index') }}">
+                    <div class="parent-icon">
+                        <i class='bx bx-cookie'></i>
+                    </div>
+                    <div class="menu-title">Kategoriler</div>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('panel.getDashboard') }}">
+                    <div class="parent-icon">
+                        <i class='bx bx-cookie'></i>
+                    </div>
+                    <div class="menu-title">Siparişler</div>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('panel.getDashboard') }}">
+                    <div class="parent-icon">
+                        <i class='bx bx-cookie'></i>
+                    </div>
+                    <div class="menu-title">Raporlar</div>
+                </a>
+            </li>
+        @elserole('customer')
+            <li>
+                <a href="{{ route('panel.getDashboard') }}">
+                    <div class="parent-icon">
+                        <i class='bx bx-cookie'></i>
+                    </div>
+                    <div class="menu-title">Siparişlerim</div>
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ route('panel.getDashboard') }}">
+                    <div class="parent-icon">
+                        <i class='bx bx-cookie'></i>
+                    </div>
+                    <div class="menu-title">Adreslerim</div>
+                </a>
+            </li>
+        @endrole
 
         {{-- <li>
             <a class="has-arrow" href="javascript:;">

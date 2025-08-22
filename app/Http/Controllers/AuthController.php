@@ -37,11 +37,8 @@ class AuthController extends Controller
         if (auth()->attempt($inputs, $remember_me)) {
             session()->regenerate();
 
-            if(auth()->user()->hasRole('admin')) {
-                return $this->success('admin.getDashboard', 'Giriş başarılı');
-            }
-
-            return $this->success('panel.getDashboard', 'Giriş başarılı');
+            if(auth()->user()->hasRole('admin'))
+                return $this->success('panel.getDashboard', 'Giriş başarılı');
 
         }
 

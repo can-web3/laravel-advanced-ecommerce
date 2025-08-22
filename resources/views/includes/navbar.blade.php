@@ -19,21 +19,37 @@
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="#">Action</a></li>
             <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
       </ul>
 
       {{-- auth --}}
-      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('getLogin') }}">Giriş Yap</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('getRegister') }}">Kayıt Ol</a>
-        </li>
-      </ul>
+      @auth
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            @role('admin')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('panel.getDashboard') }}">Admin Panel</a>
+                </li>
+             @elserole('customer')
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('panel.getDashboard') }}">Müşteri Paneli</a>
+                </li>
+            @endrole
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('getLogout') }}">Çıkış Yap</a>
+            </li>
+        </ul>
+      @else
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('getLogin') }}">Giriş Yap</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('getRegister') }}">Kayıt Ol</a>
+            </li>
+        </ul>
+      @endauth
 
       {{-- search form --}}
       <form class="d-flex">
