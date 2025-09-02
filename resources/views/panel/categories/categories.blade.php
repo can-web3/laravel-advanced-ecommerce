@@ -14,7 +14,7 @@
                 <tr>
                     <th>Adı</th>
                     <th>Üst Kategori</th>
-                    <th>Durum</th>
+                    <th>Slug</th>
                     <th style="width: 150px;">İşlemler</th>
                 </tr>
             </thead>
@@ -23,26 +23,16 @@
                     <tr>
                         <td>{{ $category->name }}</td>
                         <td>{{ $category->parent ? $category->parent->name : '-' }}</td>
-                        <td>{!! $category->status !!}</td>
+                        <td>{{ $category->slug }}</td>
                         <td>
                             <a href="{{ route('panel.categories.edit', $category) }}" class="btn btn-sm btn-warning">Düzenle</a>
-                            @if($category->trashed())
-                                <button
-                                    type="button"
-                                    data-action="{{ route('panel.categories.destroy', $category->id) }}"
-                                    data-text="{{ $category->name }} kategorisini geri yüklemek istiyor musunuz?"
-                                    class="btn-delete btn btn-sm btn-success">
-                                        Geri Yükle
-                                </button>
-                            @else
-                                <button
-                                    type="button"
-                                    data-action="{{ route('panel.categories.destroy', $category->id) }}"
-                                    data-text="{{ $category->name }} kategorisini silmek istiyor musunuz?"
-                                    class="btn-delete btn btn-sm btn-danger">
-                                        Kaldır
-                                </button>
-                            @endif
+                            <button
+                                type="button"
+                                data-action="{{ route('panel.categories.destroy', $category->id) }}"
+                                data-text="{{ $category->name }} kategorisini silmek istiyor musunuz?"
+                                class="btn-delete btn btn-sm btn-danger">
+                                    Kaldır
+                            </button>
                         </td>
                     </tr>
                 @endforeach

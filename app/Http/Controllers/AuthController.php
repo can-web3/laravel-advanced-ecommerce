@@ -17,6 +17,19 @@ class AuthController extends Controller
 
     public function postRegister(RegisterRequest $request)
     {
+        return [
+            // Kısa pencere: 1 dakikada 5 deneme
+            Limit::perMinute(5)->by($email.'|'.$request->ip())
+                ->response(function () {
+                    return response()->json([
+                        'message' => 'Çok fazla giriş denemesi. Lütfen biraz sonra tekrar deneyin.'
+                    ], 429);
+                }),
+
+            // Uzun pencere: 10 dakikada 10 deneme (ek güvenlik)
+            Limit::perMinutes(10, 10)->by('long:'.$email.'|'.$request->ip()),
+        ];
+        
         $inputs = $request->only(['full_name', 'email', 'phone', 'password']);
 
         User::create($inputs);

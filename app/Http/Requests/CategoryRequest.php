@@ -21,10 +21,26 @@ class CategoryRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|string|max:255',
+        $rules = [
+            'name' => 'required|string|unique:categories|max:255',
             'parent_id' => 'nullable|exists:categories,id',
             'is_active' => 'boolean',
+        ];
+
+        if ($this->isMethod('PATCH')) {
+            $categoryId = $this->route('kategoriler');
+            $rules['name'] = 'required|string|unique:categories,name,' . $categoryId . '|max:255';
+        }
+
+        return $rules;
+    }
+
+    public function attributes()
+    {
+        return [
+            'name' => 'kategori adı',
+            'parent_id' => 'üst kategori',
+            'is_active' => 'durum',
         ];
     }
 }

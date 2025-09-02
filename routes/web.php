@@ -43,6 +43,3 @@ Route::prefix('/panel')->middleware('auth')->name('panel.')->group(function(){
 });
 
 
-Route::prefix('/api')->group(function(){
-
-});

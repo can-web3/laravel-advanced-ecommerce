@@ -1,19 +1,21 @@
 @extends('layouts.panel')
 
-@section('title', 'Kategori Ekle')
+@section('title', 'Kategori Düzenle')
 
 @section('content')
     @include('includes.panel.section-header', [
-        'title' => 'Kategori Ekle'
+        'title' => 'Kategori Düzenle'
     ])
 
-    <form action="{{ route('panel.categories.store') }}" method="POST">
+    <form action="{{ route('panel.categories.update', $category) }}" method="POST">
         @csrf
+        @method('PATCH')
 
         {{-- name --}}
         @include('includes.input', [
             'title' => 'Adı',
             'name' => 'name',
+            'value' => $category->name
         ])
 
         {{-- parent_id --}}
@@ -24,7 +26,7 @@
                 @foreach ($categories as $c)
                     <option
                         value="{{ $c->id }}"
-                        {{ old('parent_id') == $c->id ? 'selected' : '' }}
+                        {{ old('parent_id', $c->id) == $category->parent_id ? 'selected' : '' }}
                     >
                         {{ $c->name }}
                     </option>

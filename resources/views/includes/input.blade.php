@@ -11,7 +11,7 @@
         class="form-control {{ $errors->has($name) ? 'is-invalid' : '' }}"
         id="{{ $name }}"
         name="{{ $name }}"
-        value="{{ old($name) }}"
+        value="@if(old($name)){{ old($name) }}@elseif(isset($value)){{ $value }}@endif"
         placeholder="{{ $title }} giriniz"
         {{ ($required ?? true) ? 'required' : '' }}
     >
